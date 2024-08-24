@@ -1,20 +1,7 @@
 import { Client } from "pg";
 import { Router } from "express";
 import { RedisManager } from "../RedisManager";
-import { DATABASE_URL } from "./config";
-
-const client = new Client({
-  connectionString: DATABASE_URL,
-});
-
-client
-  .connect()
-  .then(() => {
-    console.log("Connected to the database");
-  })
-  .catch((err) => {
-    console.error("Database connection error", err.stack);
-  });
+import { client } from "./../database";
 
 export const klineRouter = Router();
 
@@ -47,6 +34,7 @@ klineRouter.get("/", async (req, res) => {
       new Date((endTime * 1000) as string),
     ]);
     res.json(
+      //@ts-ignore
       result.rows.map((x) => ({
         close: x.close,
         end: x.bucket,
