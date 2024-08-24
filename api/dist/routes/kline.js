@@ -10,20 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.klineRouter = void 0;
-const pg_1 = require("pg");
 const express_1 = require("express");
-const config_1 = require("./config");
-const client = new pg_1.Client({
-    connectionString: config_1.DATABASE_URL,
-});
-client
-    .connect()
-    .then(() => {
-    console.log("Connected to the database");
-})
-    .catch((err) => {
-    console.error("Database connection error", err.stack);
-});
+const db_1 = require("../db");
 exports.klineRouter = (0, express_1.Router)();
 exports.klineRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { market, interval, startTime, endTime } = req.query;
@@ -42,13 +30,15 @@ exports.klineRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, fun
             return res.status(400).send("Invalid Interval");
     }
     try {
-        const result = yield client.query(query, [
+        const result = yield db_1.client.query(query, [
             //@ts-ignore
             new Date((startTime * 1000)),
             //@ts-ignore
             new Date((endTime * 1000)),
         ]);
-        res.json(result.rows.map((x) => ({
+        res.json(
+        //@ts-ignore
+        result.rows.map((x) => ({
             close: x.close,
             end: x.bucket,
             high: x.high,

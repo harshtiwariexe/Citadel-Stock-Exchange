@@ -1,7 +1,7 @@
 import { Client } from "pg";
 import { Router } from "express";
 import { RedisManager } from "../RedisManager";
-import { client } from "./../database";
+import { client } from "../db";
 
 export const klineRouter = Router();
 
