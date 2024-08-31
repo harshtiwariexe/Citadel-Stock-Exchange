@@ -1,6 +1,4 @@
-// import { BASE_CURRENCY } from "./Engine";
-
-const BASE_CURRENCY = "TATA";
+import { BASE_CURRENCY } from "./Engine";
 
 export interface Order {
   price: number;

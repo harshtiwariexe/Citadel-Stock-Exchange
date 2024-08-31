@@ -14,7 +14,7 @@ export type MessageToApi =
       };
     }
   | {
-      type: "ORDER";
+      type: "ORDER_PLACED";
       payload: {
         orderId: string;
         executedQty: number;
@@ -22,7 +22,7 @@ export type MessageToApi =
           price: string;
           qty: number;
           tradeId: number;
-        };
+        }[];
       };
     }
   | {
